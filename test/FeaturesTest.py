@@ -13,7 +13,7 @@ class FeaturesTest(unittest.TestCase):
         l = list(range(5))
         graph = gc.generate_path(5, x=l, y=l, w=l)
         features = feat.encode_features(graph, 0, 1)
-        self.assertEqual(5, len(features))
-        np.testing.assert_array_almost_equal([0.0, 1.0, 1.0, 0.0, 1.0], features, 0.0000001)
-
+        self.assertEqual(25, len(features))
+        np.testing.assert_array_almost_equal([0.0, 1.0, 1.0, 0.0, 1.0], features[0:5], 0.0000001)
+        np.testing.assert_array_almost_equal(np.ones(20), features[5:25], 0.0000001)
     # TODO More tests, more complicated
