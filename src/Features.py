@@ -24,6 +24,10 @@ def encode_features(graph, node_cur, node_dst):
             break
         out_edge_dst = out_edge[1]
 
+        # TODO: update features with OSM and traffic data
+        # - Length
+        # - Serv level
+        # - Max speed
         features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst)['weight']
         features_vec[idx * NUM_FEATURES + 1] = latitudes[out_edge_dst]
         features_vec[idx * NUM_FEATURES + 2] = longitudes[out_edge_dst]
