@@ -5,7 +5,7 @@ import networkx as nx
 
 class GraphCreatorTest(unittest.TestCase):
     def test_generate_low_degree_g(self):
-        G = gc.generate_low_degree_g(num_nodes=100)
+        G = gc.generate_random_graph(num_nodes=100)
         self.assertEqual(100, G.number_of_nodes())
         # Ensure no key errors
         nx.get_node_attributes(G, 'x')[0]

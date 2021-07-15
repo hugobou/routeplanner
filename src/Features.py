@@ -12,14 +12,18 @@ def dist_cos(x0, y0, x1, y1, x2, y2):
     v2 = [x2 - x0, y2 - y0]
     return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
-def encode_features(graph, node_cur, node_dst):
+
+def encode_features(graph, out_edges, node_cur, node_dst):
+    if len(out_edges) == 0:
+        # TODO define proper exception
+        raise RuntimeError("Woops")
 
     longitudes = nx.get_node_attributes(graph, 'x')
     latitudes = nx.get_node_attributes(graph, 'y')
 
     features_vec = np.ones(MAX_OUT_DEGREE * NUM_FEATURES)
 
-    for idx, out_edge in enumerate(graph.out_edges(node_cur)):
+    for idx, out_edge in enumerate(out_edges):
         if idx >= MAX_OUT_DEGREE:
             break
         out_edge_dst = out_edge[1]
