@@ -1,10 +1,10 @@
 import Features as feat
+import random
 
 
 def get_route(model, graph, node_src, node_dst):
     route = [node_src]
     node_cur = node_src
-    node_prev = None
 
     while node_cur != node_dst:
         node_next = select_next_node(graph, model, route, node_cur, node_dst)
@@ -32,7 +32,10 @@ def infer_next_node(model, graph, out_edges, node_cur, node_dst):
 
     features_vector = feat.encode_features(graph, out_edges, node_cur, node_dst)
     index = model.predict(features_vector)
-    next_node = out_edges[index][1]
 
-    # TODO deal with no prediction
+    if index < len(out_edges):
+        next_node = out_edges[index][1]
+    else:
+        next_node = random.choice(out_edges)[1]
+
     return next_node

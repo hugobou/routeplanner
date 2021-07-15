@@ -1,11 +1,14 @@
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-
 import unittest
 import GraphCreator as gc
 import RoutePlanner as rp
+
+
+class ModelStubAlwaysConstant:
+    def __init__(self, constant):
+        self._constant = constant
+
+    def predict(self, ignored):
+        return self._constant
 
 
 class ModelStubAlwaysZero:
@@ -18,16 +21,24 @@ class ModelStubAlwaysError:
         raise RuntimeError("ModelStubAlwaysError.predict always throws error")
 
 
-# TODO: error handling. Nodes not in graph.
+# TODO: error handling. src/dst Nodes not in graph.
 
 class RoutePlannerTest(unittest.TestCase):
-    def test_infer_node(self):
+    def test_infer_node_happy_flow(self):
         model = ModelStubAlwaysZero()
 
         graph = gc.generate_path(5)
         out_edges = list(graph.out_edges(0))
-        next = rp.infer_next_node(model, graph, out_edges, 0, 1)
-        self.assertEqual(1, next)
+        next_node = rp.infer_next_node(model, graph, out_edges, 0, 1)
+        self.assertEqual(1, next_node)
+
+    def test_infer_node_invalid_prediction_random_choice(self):
+        model = ModelStubAlwaysConstant(5)
+
+        graph = gc.generate_hardcoded_graph()
+        out_edges = [(1, 2), (1, 4)]
+        next_node = rp.infer_next_node(model, graph, out_edges, 1, 2)
+        self.assertTrue(next_node == 2 or next_node == 4)
 
     def test_infer_node_route_not_possible(self):
         model = ModelStubAlwaysError()
