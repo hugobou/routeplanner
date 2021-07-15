@@ -50,6 +50,16 @@ def generate_hardcoded_graph():
     return G
 
 
+def generate_hardcoded_graph_too_many_connections():
+    G = generate_hardcoded_graph()
+
+    add_bidir_edge(G, 1, 6)
+    add_bidir_edge(G, 1, 7)
+    add_bidir_edge(G, 1, 8)
+
+    return G
+
+
 def add_bidir_edge(G, n1, n2, w=1):
     G.add_edge(n1, n2, weight=w)
     G.add_edge(n2, n1, weight=w)

@@ -19,9 +19,15 @@ class FeaturesTest(unittest.TestCase):
         np.testing.assert_array_almost_equal(np.ones(20), features[5:25], 0.0000001)
 
     def test_encode_features_empty_out_edges_exception(self):
-        l = list(range(5))
-        graph = gc.generate_path(5, x=l, y=l, w=l)
+        graph = gc.generate_path(5)
         out_edges = []
         self.assertRaises(RuntimeError, feat.encode_features, graph, out_edges, 0, 1)
+
+    def test_encode_features_more_edges_than_allowed_last_edge_ignored(self):
+        graph = gc.generate_hardcoded_graph_too_many_connections()
+        out_edges = graph.out_edges(1)
+        features = feat.encode_features(graph, out_edges, 1, 10)
+        self.assertEqual(25, len(features))
+
 
     # TODO More tests, more complicated
