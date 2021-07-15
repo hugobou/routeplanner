@@ -6,6 +6,7 @@
 - Get nearest edge https://github.com/gboeing/osmnx/issues/269
 
 # Server
+- design interface
 - write endpoints and test
 
 # Virtual env
