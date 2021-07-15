@@ -1,11 +1,5 @@
 import unittest
-from flask import Flask, request, jsonify
 import Server
-
-import os
-import tempfile
-
-import pytest
 
 
 class MyTestCase(unittest.TestCase):
