@@ -32,12 +32,17 @@ def encode_features(graph, out_edges, node_cur, node_dst):
         # - Length
         # - Serv level
         # - Max speed
-        features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst)['weight']
-        features_vec[idx * NUM_FEATURES + 1] = latitudes[out_edge_dst]
-        features_vec[idx * NUM_FEATURES + 2] = longitudes[out_edge_dst]
-        features_vec[idx * NUM_FEATURES + 3] = dist_eucl(longitudes[out_edge_dst], latitudes[out_edge_dst],
-                                                         longitudes[node_dst], latitudes[node_dst])
-        features_vec[idx * NUM_FEATURES + 4] = dist_cos(longitudes[node_cur], latitudes[node_cur],
-                                                        longitudes[out_edge_dst], latitudes[out_edge_dst],
-                                                        longitudes[node_dst], latitudes[node_dst])
+        try:
+            features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst)[0]['maxspeed']
+            features_vec[idx * NUM_FEATURES + 1] = latitudes[out_edge_dst]
+            features_vec[idx * NUM_FEATURES + 2] = longitudes[out_edge_dst]
+            features_vec[idx * NUM_FEATURES + 3] = dist_eucl(longitudes[out_edge_dst], latitudes[out_edge_dst],
+                                                             longitudes[node_dst], latitudes[node_dst])
+            features_vec[idx * NUM_FEATURES + 4] = dist_cos(longitudes[node_cur], latitudes[node_cur],
+                                                            longitudes[out_edge_dst], latitudes[out_edge_dst],
+                                                            longitudes[node_dst], latitudes[node_dst])
+        except KeyError:
+            print("Error with: ", graph.get_edge_data(node_cur, out_edge_dst))
+            raise
+
     return features_vec
