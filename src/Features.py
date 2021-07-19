@@ -33,7 +33,7 @@ def encode_features(graph, out_edges, node_cur, node_dst):
         # - Serv level
         # - Max speed
         try:
-            features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst)[0]['maxspeed']
+            features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst, 0)['maxspeed']
             features_vec[idx * NUM_FEATURES + 1] = latitudes[out_edge_dst]
             features_vec[idx * NUM_FEATURES + 2] = longitudes[out_edge_dst]
             features_vec[idx * NUM_FEATURES + 3] = dist_eucl(longitudes[out_edge_dst], latitudes[out_edge_dst],
