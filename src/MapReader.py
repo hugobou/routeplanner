@@ -14,19 +14,11 @@ def ReadMap(filename):
     G = ox.graph_from_xml(filename)
 
     remove_edges_without_highway(G)
-    remove_edges_without_highway(G)
-    remove_edges_without_highway(G)
 
-    remove_edges_with_invalid_highway(G)
-    remove_edges_with_invalid_highway(G)
     remove_edges_with_invalid_highway(G)
 
     remove_edges_without_valid_highway_list(G)
-    remove_edges_without_valid_highway_list(G)
-    remove_edges_without_valid_highway_list(G)
 
-    remove_edges_without_valid_highway(G)
-    remove_edges_without_valid_highway(G)
     remove_edges_without_valid_highway(G)
 
     simplify_highway(G)
@@ -45,24 +37,27 @@ def ReadMap(filename):
 def remove_edges_without_valid_highway(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if
                        not isinstance(meta['highway'], list) and meta['highway'] not in highway_include]
-    G.remove_edges_from(edges_to_remove)
-
+    remove_edges(G, edges_to_remove)
 
 def remove_edges_with_invalid_highway(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if
                        isinstance(meta['highway'], list) and any(hwy in highway_exclude for hwy in meta['highway'])]
-    G.remove_edges_from(edges_to_remove)
-
+    remove_edges(G, edges_to_remove)
 
 def remove_edges_without_valid_highway_list(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if
                        isinstance(meta['highway'], list) and all(hwy not in highway_include for hwy in meta['highway'])]
-    G.remove_edges_from(edges_to_remove)
-
+    remove_edges(G, edges_to_remove)
 
 def remove_edges_without_highway(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if 'highway' not in meta]
-    G.remove_edges_from(edges_to_remove)
+    remove_edges(G, edges_to_remove)
+
+
+def remove_edges(G, edges_to_remove):
+    for (s, d) in edges_to_remove:
+        while G.has_edge(s, d):
+            G.remove_edge(s, d)
 
 
 def simplify_highway(G):
