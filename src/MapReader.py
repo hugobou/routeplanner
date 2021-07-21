@@ -14,21 +14,15 @@ def ReadMap(filename):
     G = ox.graph_from_xml(filename)
 
     remove_edges_without_highway(G)
-
     remove_edges_with_invalid_highway(G)
-
     remove_edges_without_valid_highway_list(G)
-
     remove_edges_without_valid_highway(G)
-
     simplify_highway(G)
-
     add_maxspeed(G)
 
     # Generate connected components and select the largest:
     largest_component = max(nx.weakly_connected_components(G), key=len)
 
-    # Create a subgraph of G consisting only of this component:
     G2 = G.subgraph(largest_component)
 
     return G2
@@ -39,15 +33,18 @@ def remove_edges_without_valid_highway(G):
                        not isinstance(meta['highway'], list) and meta['highway'] not in highway_include]
     remove_edges(G, edges_to_remove)
 
+
 def remove_edges_with_invalid_highway(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if
                        isinstance(meta['highway'], list) and any(hwy in highway_exclude for hwy in meta['highway'])]
     remove_edges(G, edges_to_remove)
 
+
 def remove_edges_without_valid_highway_list(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if
                        isinstance(meta['highway'], list) and all(hwy not in highway_include for hwy in meta['highway'])]
     remove_edges(G, edges_to_remove)
+
 
 def remove_edges_without_highway(G):
     edges_to_remove = [(s, d) for s, d, meta in G.edges.data() if 'highway' not in meta]
