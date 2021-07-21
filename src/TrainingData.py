@@ -1,5 +1,6 @@
 import random
 import networkx as nx
+import numpy as np
 import Features as feat
 
 
@@ -32,7 +33,7 @@ def generate_training_set(graph, n_samples):
             features.append(feat.encode_features(graph, list(graph.out_edges(src)), src, dst))
             labels.append(get_label(graph, src, dst))
 
-    return features, labels
+    return np.array(features), np.array(labels)
 
 
 def get_node_pairs(path):
