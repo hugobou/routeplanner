@@ -4,8 +4,10 @@ import numpy as np
 MAX_OUT_DEGREE = 5
 NUM_FEATURES = 5
 
+
 def dist_eucl(x1, y1, x2, y2):
     return np.sqrt((x1-x2) ** 2 + (y1-y2) ** 2)
+
 
 def dist_cos(x0, y0, x1, y1, x2, y2):
     v1 = [x1 - x0, y1 - y0]
@@ -16,7 +18,7 @@ def dist_cos(x0, y0, x1, y1, x2, y2):
 def encode_features(graph, out_edges, node_cur, node_dst):
     if len(out_edges) == 0:
         # TODO define proper exception
-        raise RuntimeError("Woops")
+        raise RuntimeError("Invalid input (encode_features): len(out_edges) == 0")
 
     longitudes = nx.get_node_attributes(graph, 'x')
     latitudes = nx.get_node_attributes(graph, 'y')
@@ -42,7 +44,6 @@ def encode_features(graph, out_edges, node_cur, node_dst):
                                                             longitudes[out_edge_dst], latitudes[out_edge_dst],
                                                             longitudes[node_dst], latitudes[node_dst])
         except KeyError:
-            print("Error with: ", graph.get_edge_data(node_cur, out_edge_dst))
-            raise
+            raise KeyError("(encode_features) Error with edge: (%d, %d)" % (node_cur, out_edge_dst))
 
     return features_vec
