@@ -70,9 +70,10 @@ def add_maxspeed(G):
 
     edges_without_speed = [(s, d) for s, d, meta in G.edges.data() if 'maxspeed' not in meta]
     for s, d in edges_without_speed:
-        # if isinstance(G[s][d][0]['highway'], list):
-        #     G[s][d][0]['maxspeed'] = highway_maxspeed[G[s][d][0]['highway'][0]]
-        # else:
         for i in range(len(G[s][d])):
             G[s][d][i]['maxspeed'] = highway_maxspeed[G[s][d][i]['highway']]
-        # print(G[s][d])
+
+    edges_with_multiple_speed = [(s, d) for s, d, meta in G.edges.data() if isinstance(meta['maxspeed'], list)]
+    for s, d in edges_with_multiple_speed:
+        for i in range(len(G[s][d])):
+            G[s][d][i]['maxspeed'] = min([float(speed) for speed in G[s][d][i]['maxspeed']])
