@@ -35,6 +35,7 @@ def encode_features(graph, out_edges, node_cur, node_dst):
         # - Serv level
         # - Max speed
         try:
+            # TODO update to use speed_kph
             features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst, 0)['maxspeed']
             features_vec[idx * NUM_FEATURES + 1] = latitudes[out_edge_dst]
             features_vec[idx * NUM_FEATURES + 2] = longitudes[out_edge_dst]
@@ -43,7 +44,9 @@ def encode_features(graph, out_edges, node_cur, node_dst):
             features_vec[idx * NUM_FEATURES + 4] = dist_cos(longitudes[node_cur], latitudes[node_cur],
                                                             longitudes[out_edge_dst], latitudes[out_edge_dst],
                                                             longitudes[node_dst], latitudes[node_dst])
-        except KeyError:
-            raise KeyError("(encode_features) Error with edge: (%d, %d)" % (node_cur, out_edge_dst))
+        except:
+            print("(encode_features) Error with edge: (%d, %d), " % (node_cur, out_edge_dst),
+                  graph.get_edge_data(node_cur, out_edge_dst))
+            raise # RuntimeError("(encode_features) Error with edge: (%d, %d)" % (node_cur, out_edge_dst))
 
     return features_vec

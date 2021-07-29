@@ -2,9 +2,6 @@ import logging
 import mxnet as mx
 from sklearn.model_selection import train_test_split
 
-import modelbuilder as mb
-import TrainingData as td
-import MapReader as mr
 
 
 def train(model, X, y):
@@ -14,6 +11,8 @@ def train(model, X, y):
     train_iter = mx.io.NDArrayIter(X_train, y_train, batch_size=batch_size, shuffle=True)
     val_iter = mx.io.NDArrayIter(X_test, y_test, batch_size=batch_size)
     logging.getLogger().setLevel(logging.DEBUG)  # logging to stdout
+    print("data_shapes=", train_iter.provide_data)
+    print("label_shapes=", train_iter.provide_label)
     model.bind(data_shapes=train_iter.provide_data, label_shapes=train_iter.provide_label)
     model.init_params()
     model.fit(train_iter,  # train data
@@ -25,10 +24,3 @@ def train(model, X, y):
               num_epoch=5)  # train for at most 10 dataset passes
 
 
-graph = mr.ReadMap("/home/hugo/PycharmProjects/routeplanner/data/map.osm")
-
-X, y = td.generate_training_set(graph, n_samples=1000)
-
-model = mb.build_model()
-
-train(model, X, y)

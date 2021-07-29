@@ -129,7 +129,7 @@ def generate_dataset_shortest(G, latitudes, longitudes, max_nodes_to_consider=90
             for idx, out_edge in enumerate(G.out_edges(node_src)):
                 out_edge_dst = out_edge[1]
 
-                features_vec[idx * num_features] = G.get_edge_data(node_src, out_edge_dst)['weight']
+                features_vec[idx * num_features] = 0 # G.get_edge_data(node_src, out_edge_dst)['weight']
                 features_vec[idx * num_features + 1] = latitudes[out_edge_dst]
                 features_vec[idx * num_features + 2] = longitudes[out_edge_dst]
                 features_vec[idx * num_features + 3] = dist_eucl(

@@ -11,21 +11,29 @@ def ReadMap(filename):
 
     ox.config(use_cache=True, log_console=True)
 
-    G = ox.graph_from_xml(filename)
+    G = ox.io.load_graphml(filename)
 
     remove_edges_without_highway(G)
     remove_edges_with_invalid_highway(G)
     remove_edges_without_valid_highway_list(G)
     remove_edges_without_valid_highway(G)
     simplify_highway(G)
-    add_maxspeed(G)
+
+    # TODO review https://geoffboeing.com/2020/06/whats-new-with-osmnx/
+    # https://geoffboeing.com/2016/11/osmnx-python-street-networks/
+    G = ox.add_edge_speeds(G)
+    # add_maxspeed(G)
+
+    # G2 = ox.project_graph(G)
+    # G3 = ox.consolidate_intersections(G2, tolerance=10, rebuild_graph=True, dead_ends=True)
 
     # Generate connected components and select the largest:
+    # TODO see https://stackoverflow.com/q/20012579
     largest_component = max(nx.weakly_connected_components(G), key=len)
 
-    G2 = G.subgraph(largest_component)
+    G4 = G.subgraph(largest_component)
 
-    return G2
+    return G4
 
 
 def remove_edges_without_valid_highway(G):
