@@ -11,6 +11,7 @@ def get_route(model, graph, node_src, node_dst):
     while node_cur != node_dst:
         node_next = select_next_node(graph, model, route, node_cur, node_dst)
         if node_next == INVALID_NODE:
+            # TODO test
             return route, False
         route.append(node_next)
         node_cur = node_next
@@ -23,6 +24,7 @@ def select_next_node(graph, model, route, node_cur, node_dst):
     out_edges = list(filter(lambda edge: edge[1] not in route, graph.out_edges(node_cur)))
 
     if len(out_edges) == 0:
+        # TODO test
         return INVALID_NODE
     elif len(out_edges) == 1:
         node_next = out_edges[0][1]

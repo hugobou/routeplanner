@@ -51,8 +51,9 @@ class RoutePlannerTest(unittest.TestCase):
         model = ModelStubAlwaysError()
 
         graph = gc.generate_path(5)
-        route = rp.get_route(model, graph, 0, 4)
+        route, valid = rp.get_route(model, graph, 0, 4)
         self.assertEqual([0, 1, 2, 3, 4], route)
+        self.assertTrue(valid)
 
     def test_straight_path(self):
         model = ModelStubAlwaysZero()
@@ -60,15 +61,17 @@ class RoutePlannerTest(unittest.TestCase):
         # 2nd edge: deterministic
 
         graph = gc.generate_hardcoded_graph()
-        route = rp.get_route(model, graph, 1, 3)
+        route, valid = rp.get_route(model, graph, 1, 3)
         self.assertEqual([1, 2, 3], route)
+        self.assertTrue(valid)
 
     def test_ensure_exclude_nodes_in_route(self):
         model = ModelStubAlwaysZero()
 
         graph = gc.generate_hardcoded_graph()
-        route = rp.get_route(model, graph, 1, 5)
+        route, valid = rp.get_route(model, graph, 1, 5)
         self.assertEqual([1, 2, 3, 6, 5], route)
+        self.assertTrue(valid)
 
 
 if __name__ == '__main__':
