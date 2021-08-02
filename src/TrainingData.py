@@ -30,8 +30,12 @@ def generate_training_set(graph, n_samples):
 
         node_pairs = get_node_pairs(path)
         for (src, dst) in node_pairs:
+            if len(graph.out_edges(src)) < 2:
+                continue
             features.append(feat.encode_features(graph, list(graph.out_edges(src)), src, dst))
             labels.append(get_label(graph, src, dst))
+            if len(labels) % 100 == 0:
+                print("Generating training data: %d samples generated" % len(labels))
 
     return np.array(features), np.array(labels)
 
