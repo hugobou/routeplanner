@@ -17,6 +17,15 @@ class TrainingDataCase(unittest.TestCase):
 
         self.assertEqual(len(features[0]), 25)
 
+    def test_generate_training_set_multithread(self):
+        graph = gc.generate_random_graph(10)
+        features, labels = td.generate_training_set_multithread(graph, 200)
+
+        self.assertGreaterEqual(len(features), 200)
+        self.assertGreaterEqual(len(labels), 200)
+
+        self.assertEqual(len(features[0]), 25)
+
     def test_generate_training_set_osm_data(self):
         ox.config(use_cache=True, log_console=True)
 
