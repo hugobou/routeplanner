@@ -24,8 +24,10 @@ class TrafficMeasurement:
             return True
 
 
-def parse_traffic_data(filename, debug=False):
-    root_node = ET.parse(filename).getroot()
+def parse_traffic_data(xml_string, debug=False):
+    root_node = ET.ElementTree(ET.fromstring(xml_string)).getroot()
+
+    # root_node = ET.parse(filename).getroot()
     tmList = []
     for tag in root_node.findall('pm'):
         tag_desc = tag.find('descripcion').text if tag.find('descripcion') != None else None
@@ -39,4 +41,4 @@ def parse_traffic_data(filename, debug=False):
                 print(tm)
     return tmList
 
-parse_traffic_data('pm.xml', debug=True)
+
