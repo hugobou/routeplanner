@@ -2,10 +2,10 @@ import unittest
 
 import osmnx as ox
 
-import GraphCreator as gc
-import TrainingData as td
-import MapReader as mr
-from Features import FEATURE_LENGTH
+import graphcreator as gc
+import trainingdata as td
+import mapreader as mr
+from features import FEATURE_LENGTH
 
 
 class TrainingDataCase(unittest.TestCase):

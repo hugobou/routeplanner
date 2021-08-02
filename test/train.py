@@ -1,8 +1,8 @@
 import modelbuilder as mb
-import TrainingData as td
-import MapReader as mr
+import trainingdata as td
+import mapreader as mr
 import trainer as tr
-import Model as mod
+import model as mod
 
 graph = mr.ReadMap("/home/hugo/PycharmProjects/routeplanner/proto/madrid.gml")
 

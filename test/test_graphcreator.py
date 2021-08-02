@@ -1,5 +1,5 @@
 import unittest
-import GraphCreator as gc
+import graphcreator as gc
 import networkx as nx
 
 

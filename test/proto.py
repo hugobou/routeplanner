@@ -1,4 +1,4 @@
-import Application as app
+import application as app
 
 
 app = app.application_creator("/home/hugo/PycharmProjects/routeplanner/proto/madrid.gml",

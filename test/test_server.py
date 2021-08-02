@@ -1,10 +1,10 @@
 import unittest
-import Server
+import server
 
 
 class MyTestCase(unittest.TestCase):
     def test_something(self):
-        with Server.app.test_client() as client:
+        with server.app.test_client() as client:
             rv = client.post('/route', json={
                 'src': '123', 'dst': '321'
             })

@@ -1,6 +1,6 @@
 import unittest
-import GraphCreator as gc
-import RoutePlanner as rp
+import graphcreator as gc
+import routeplanner as rp
 
 
 class ModelStubAlwaysConstant:

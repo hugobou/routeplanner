@@ -1,6 +1,6 @@
 import mxnet as mx
 
-import Features as ft
+import features as ft
 
 
 def build_model(context=mx.cpu()):

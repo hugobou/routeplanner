@@ -1,4 +1,4 @@
-import Features as feat
+import features as feat
 import random
 import osmnx as ox
 

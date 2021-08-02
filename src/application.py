@@ -1,9 +1,9 @@
 import modelbuilder as mb
-import MapReader as mr
-import Model as mod
-import RoutePlanner as rp
+import mapreader as mr
+import model as mod
+import routeplanner as rp
 from trainer import BATCH_SIZE
-from Features import FEATURE_LENGTH
+from features import FEATURE_LENGTH
 
 
 def application_creator(gml_file_name, model_params_file_name):

@@ -2,7 +2,7 @@ import random
 import networkx as nx
 import numpy as np
 import concurrent
-import Features as feat
+import features as feat
 
 
 def random_node(graph):

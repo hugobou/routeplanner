@@ -1,5 +1,5 @@
 import requests
-import PmParser as pm
+import pmparser as pm
 
 API_URL = 'https://informo.madrid.es/informo/tmadrid/pm.xml'
 
