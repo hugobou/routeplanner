@@ -4,11 +4,11 @@ import pmparser as pm
 API_URL = 'https://informo.madrid.es/informo/tmadrid/pm.xml'
 
 
-def get_latest_traffic_info():
+def get_latest_traffic_info(debug=False):
     response = requests.get(API_URL)
 
     if response.status_code == 200:
-        return pm.parse_traffic_data(response.content, debug=False)
+        return pm.parse_traffic_data(response.content, debug=debug)
     else:
         # TODO proper exception
         raise RuntimeWarning("something went wrong")
