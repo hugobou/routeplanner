@@ -1,7 +1,17 @@
 import Features as feat
 import random
+import osmnx as ox
 
 INVALID_NODE = -1
+
+
+# TODO test
+def get_route_gps(model, graph, origin_point, destination_point):
+    node_src = ox.distance.nearest_nodes(graph, origin_point[0], origin_point[1])
+    node_dst = ox.distance.nearest_nodes(graph, destination_point[0], destination_point[1])
+    route, valid = get_route(model, graph, node_src, node_dst)
+
+    return route, valid
 
 
 def get_route(model, graph, node_src, node_dst):
