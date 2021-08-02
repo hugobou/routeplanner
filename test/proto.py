@@ -4,6 +4,8 @@ import Model as mod
 import RoutePlanner as rp
 import osmnx as ox
 
+from trainer import BATCH_SIZE
+
 graph = mr.ReadMap("/home/hugo/PycharmProjects/routeplanner/proto/madrid.gml")
 
 model = mod.Model(mb.build_model())
@@ -14,9 +16,11 @@ model = mod.Model(mb.build_model())
 # before loading parameters we have to bind the model
 # data size is batch_size, feature width
 # lbel size is batch size
-model.get_model().bind(data_shapes=[('data', (20, 25))], label_shapes=[('softmax_label', (20,))])
+mxmodel = model.get_model()
 
-model.get_model().load_params("/home/hugo/PycharmProjects/routeplanner/test/model_params")
+mxmodel.bind(data_shapes=[('data', (BATCH_SIZE, 25))], label_shapes=[('softmax_label', (BATCH_SIZE,))])
+
+mxmodel.load_params("/home/hugo/PycharmProjects/routeplanner/test/model_params")
 
 origin_point = (-3.6121729, 40.4224813)
 destination_point = (-3.7090030, 40.4538682)

@@ -3,6 +3,8 @@ import numpy as np
 
 MAX_OUT_DEGREE = 5
 NUM_FEATURES = 5
+FEATURE_LENGTH = MAX_OUT_DEGREE * NUM_FEATURES
+
 
 
 def dist_eucl(x1, y1, x2, y2):
@@ -23,7 +25,7 @@ def encode_features(graph, out_edges, node_cur, node_dst):
     longitudes = nx.get_node_attributes(graph, 'x')
     latitudes = nx.get_node_attributes(graph, 'y')
 
-    features_vec = np.ones(MAX_OUT_DEGREE * NUM_FEATURES)
+    features_vec = np.ones(FEATURE_LENGTH)
 
     for idx, out_edge in enumerate(out_edges):
         if idx >= MAX_OUT_DEGREE:

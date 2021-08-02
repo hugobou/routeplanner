@@ -5,6 +5,7 @@ import osmnx as ox
 import GraphCreator as gc
 import TrainingData as td
 import MapReader as mr
+from Features import FEATURE_LENGTH
 
 
 class TrainingDataCase(unittest.TestCase):
@@ -15,7 +16,7 @@ class TrainingDataCase(unittest.TestCase):
         self.assertGreaterEqual(len(features), 20)
         self.assertGreaterEqual(len(labels), 20)
 
-        self.assertEqual(len(features[0]), 25)
+        self.assertEqual(len(features[0]), FEATURE_LENGTH)
 
     def test_generate_training_set_multithread(self):
         graph = gc.generate_random_graph(10)
@@ -24,7 +25,7 @@ class TrainingDataCase(unittest.TestCase):
         self.assertGreaterEqual(len(features), 200)
         self.assertGreaterEqual(len(labels), 200)
 
-        self.assertEqual(len(features[0]), 25)
+        self.assertEqual(len(features[0]), FEATURE_LENGTH)
 
     def test_generate_training_set_osm_data(self):
         ox.config(use_cache=True, log_console=True)
@@ -36,7 +37,7 @@ class TrainingDataCase(unittest.TestCase):
         self.assertGreaterEqual(len(features), 20)
         self.assertGreaterEqual(len(labels), 20)
 
-        self.assertEqual(len(features[0]), 25)
+        self.assertEqual(len(features[0]), FEATURE_LENGTH)
 
 
 if __name__ == '__main__':

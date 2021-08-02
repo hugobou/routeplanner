@@ -27,7 +27,7 @@ class FeaturesTest(unittest.TestCase):
         graph = gc.generate_hardcoded_graph_too_many_connections()
         out_edges = graph.out_edges(1)
         features = feat.encode_features(graph, out_edges, 1, 10)
-        self.assertEqual(25, len(features))
+        self.assertEqual(feat.FEATURE_LENGTH, len(features))
 
 
     # TODO More tests, more complicated
