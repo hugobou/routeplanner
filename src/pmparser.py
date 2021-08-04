@@ -8,11 +8,12 @@ def parse_traffic_data(xml_string, debug=False):
 
     tmList = []
     for tag in root_node.findall('pm'):
+        id_elem = tag.find('idelem').text if tag.find('idelem') != None else None
         tag_desc = tag.find('descripcion').text if tag.find('descripcion') != None else None
         tag_x = tag.find('st_x').text if tag.find('st_x') != None else None
         tag_y = tag.find('st_y').text if tag.find('st_y') != None else None
         tag_serv = tag.find('nivelServicio').text if tag.find('nivelServicio') != None else None
-        tm = TrafficMeasurement(tag_desc, tag_x, tag_y, tag_serv)
+        tm = TrafficMeasurement(id_elem, tag_desc, tag_x, tag_y, tag_serv)
         if tm.isvalid():
             tmList.append(tm)
             if debug:
