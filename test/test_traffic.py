@@ -1,3 +1,4 @@
+import unittest
 from unittest import TestCase
 import csv
 
@@ -9,7 +10,8 @@ import traffic as tr
 
 class Test(TestCase):
     # TODO anotar cuanto tiempo es necesario para esto
-    def test_update_traffic_info(self):
+    @unittest.skip("Run manually only")
+    def generate_offline_tm_dict(self):
         graph = mr.ReadMap("/home/hugo/PycharmProjects/routeplanner/proto/madrid.gml")
         # Project to UTM
         graph = ox.projection.project_graph(graph)
@@ -26,4 +28,13 @@ class Test(TestCase):
                     s, d, i = ox.distance.nearest_edges(graph, tm.x, tm.y)
                     writer.writerow([tm.id, s, d])
 
+    def test_create_tm_dict(self):
+        filename = 'traffic_measurement_points_test.csv'
+
+        tm_dict = tr.read_tm_dict(filename)
+        self.assertEqual(len(tm_dict), 4)
+        self.assertEqual(tm_dict[1], (21, 31))
+        self.assertEqual(tm_dict[2], (22, 32))
+        self.assertEqual(tm_dict[11], (211, 311))
+        self.assertEqual(tm_dict[12], (212, 312))
 

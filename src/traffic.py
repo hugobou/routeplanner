@@ -1,5 +1,6 @@
 import osmnx as ox
 import utm
+import csv
 
 SERVICE_DEFAULT = 0
 
@@ -27,7 +28,16 @@ class TrafficMeasurement:
             return True
 
 
-def update_traffic_info(graph, tm_list):
+def read_tm_dict(filename):
+    tm_dict = {}
+    with open(filename, newline='') as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            tm_dict[int(row['pm'])] = (int(row['src']), int(row['dst']))
+    return tm_dict
+
+
+def update_traffic_info(graph, tm_list, tm_edge_dict):
     for tm in tm_list:
 
 # TODO https://gis.stackexchange.com/questions/372564/userwarning-when-trying-to-get-centroid-from-a-polygon-geopandas#372568
