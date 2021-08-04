@@ -21,7 +21,18 @@ class ModelStubAlwaysError:
         raise RuntimeError("ModelStubAlwaysError.predict always throws error")
 
 
+class ModelStubPresetList:
+    def __init__(self, values):
+        self._values = values
+        self._index = 0
+
+    def predict(self, ignored):
+        value = self._values[self._index]
+        self._index += 1
+        return value
+
 # TODO: error handling. src/dst Nodes not in graph.
+
 
 class RoutePlannerTest(unittest.TestCase):
     def test_infer_node_happy_flow(self):
@@ -71,6 +82,14 @@ class RoutePlannerTest(unittest.TestCase):
         graph = gc.generate_hardcoded_graph()
         route, valid = rp.get_route(model, graph, 1, 5)
         self.assertEqual([1, 2, 3, 6, 5], route)
+        self.assertTrue(valid)
+
+    def test_walk_back(self):
+        model = ModelStubPresetList([0, 1, 1])
+
+        graph = gc.generate_hardcoded_graph()
+        route, valid = rp.get_route(model, graph, 1, 9)
+        self.assertEqual([1, 2, 3, 6, 9], route)
         self.assertTrue(valid)
 
 
