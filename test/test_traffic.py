@@ -12,7 +12,7 @@ class Test(TestCase):
     # TODO anotar cuanto tiempo es necesario para esto
     @unittest.skip("Run manually only")
     def generate_offline_tm_dict(self):
-        graph = mr.ReadMap("/home/hugo/PycharmProjects/routeplanner/proto/madrid.gml")
+        graph = mr.ReadMap("../data/madrid.gml")
         # Project to UTM
         graph = ox.projection.project_graph(graph)
 

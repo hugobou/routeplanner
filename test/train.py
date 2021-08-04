@@ -4,7 +4,7 @@ import mapreader as mr
 import trainer as tr
 import model as mod
 
-graph = mr.ReadMap("/home/hugo/PycharmProjects/routeplanner/proto/madrid.gml")
+graph = mr.ReadMap("../data/madrid.gml")
 
 X, y = td.generate_training_set(graph, n_samples=1000)
 
