@@ -2,6 +2,8 @@ import networkx as nx
 import random
 import numpy as np
 
+import traffic as tr
+
 
 def generate_random_graph(num_nodes=20, min_out_degree=2, max_out_degree=4, weight_min=0.0, weight_max=1.0):
     G = nx.DiGraph()
@@ -18,6 +20,7 @@ def generate_random_graph(num_nodes=20, min_out_degree=2, max_out_degree=4, weig
             G.add_edge(node, out_neighbor, key=0, speed_kph=random.uniform(weight_min, weight_max))
 
     add_xy_to_nodes(G)
+    add_edge_traffic_zero(G)
 
     return G
 
@@ -27,6 +30,7 @@ def generate_path(num_nodes, x=None, y=None, w=None):
     add_xy_to_nodes(G, x, y)
 
     add_edge_speed_kph(G, w)
+    add_edge_traffic_zero(G)
 
     return G
 
@@ -57,12 +61,13 @@ def generate_hardcoded_graph_too_many_connections():
     add_bidir_edge(G, 1, 7)
     add_bidir_edge(G, 1, 8)
 
+
     return G
 
 
 def add_bidir_edge(G, n1, n2, w=1):
-    G.add_edge(n1, n2, key=0, speed_kph=w)
-    G.add_edge(n2, n1, key=0, speed_kph=w)
+    G.add_edge(n1, n2, key=0, speed_kph=w, traffic=0)
+    G.add_edge(n2, n1, key=0, speed_kph=w, traffic=0)
 
 
 def add_edge_speed_kph(G, w):
@@ -73,6 +78,10 @@ def add_edge_speed_kph(G, w):
         else:
             weight_dict[edge] = np.random.uniform(30, 100)
     nx.set_edge_attributes(G, weight_dict, 'speed_kph')
+
+
+def add_edge_traffic_zero(G):
+    tr.reset_traffic_info(G)
 
 
 def add_xy_to_nodes(G, x=None, y=None):

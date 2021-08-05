@@ -5,13 +5,13 @@ import application as app
 import pmparser as pm
 import traffic as tr
 
-app = app.application_creator("/home/hugo/PycharmProjects/routeplanner/data/madrid.gml",
-                              "/home/hugo/PycharmProjects/routeplanner/test/model_params")
+app = app.application_creator("../data/madrid.gml",
+                              "../test/model_params")
 
 origin_point = (-3.6121729, 40.4224813)
 destination_point = (-3.7090030, 40.5538682)
 
-tm_dict = tr.read_tm_dict('/home/hugo/PycharmProjects/routeplanner/data/traffic_measurement_points.csv')
+tm_dict = tr.read_tm_dict('../data/traffic_measurement_points.csv')
 
 with open('pm.xml') as xmlfile:
     tm_list = pm.parse_traffic_data(xmlfile.read(), debug=False)

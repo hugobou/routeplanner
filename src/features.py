@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 
 MAX_OUT_DEGREE = 5
-NUM_FEATURES = 5
+NUM_FEATURES = 6
 FEATURE_LENGTH = MAX_OUT_DEGREE * NUM_FEATURES
 
 
@@ -46,6 +46,8 @@ def encode_features(graph, out_edges, node_cur, node_dst):
             features_vec[idx * NUM_FEATURES + 4] = dist_cos(longitudes[node_cur], latitudes[node_cur],
                                                             longitudes[out_edge_dst], latitudes[out_edge_dst],
                                                             longitudes[node_dst], latitudes[node_dst])
+            features_vec[idx * NUM_FEATURES + 5] = graph.get_edge_data(node_cur, out_edge_dst, 0)['traffic']
+
         except:
             print("(encode_features) Error with edge: (%d, %d), " % (node_cur, out_edge_dst),
                   graph.get_edge_data(node_cur, out_edge_dst))

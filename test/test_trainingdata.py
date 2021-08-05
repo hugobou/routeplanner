@@ -5,6 +5,7 @@ import osmnx as ox
 import graphcreator as gc
 import trainingdata as td
 import mapreader as mr
+import traffic as tf
 from features import FEATURE_LENGTH
 
 
@@ -31,6 +32,7 @@ class TrainingDataCase(unittest.TestCase):
         ox.config(use_cache=True, log_console=True)
 
         graph = mr.ReadMap("../data/madrid.gml")
+        tf.reset_traffic_info(graph)
 
         features, labels = td.generate_training_set(graph, 20)
 

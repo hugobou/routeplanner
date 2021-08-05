@@ -7,6 +7,8 @@ import numpy as np
 import graphcreator as gc
 import features as feat
 
+from features import NUM_FEATURES, FEATURE_LENGTH
+
 
 class FeaturesTest(unittest.TestCase):
     def test_encode_features(self):
@@ -14,9 +16,9 @@ class FeaturesTest(unittest.TestCase):
         graph = gc.generate_path(5, x=l, y=l, w=l)
         out_edges = graph.out_edges(0)
         features = feat.encode_features(graph, out_edges, 0, 1)
-        self.assertEqual(25, len(features))
-        np.testing.assert_array_almost_equal([0.0, 1.0, 1.0, 0.0, 1.0], features[0:5], 0.0000001)
-        np.testing.assert_array_almost_equal(np.ones(20), features[5:25], 0.0000001)
+        self.assertEqual(FEATURE_LENGTH, len(features))
+        np.testing.assert_array_almost_equal([0.0, 1.0, 1.0, 0.0, 1.0, 0.0], features[0:NUM_FEATURES], 0.0000001)
+        np.testing.assert_array_almost_equal(np.ones(4*NUM_FEATURES), features[NUM_FEATURES:FEATURE_LENGTH], 0.0000001)
 
     def test_encode_features_empty_out_edges_exception(self):
         graph = gc.generate_path(5)
@@ -27,7 +29,7 @@ class FeaturesTest(unittest.TestCase):
         graph = gc.generate_hardcoded_graph_too_many_connections()
         out_edges = graph.out_edges(1)
         features = feat.encode_features(graph, out_edges, 1, 10)
-        self.assertEqual(feat.FEATURE_LENGTH, len(features))
+        self.assertEqual(FEATURE_LENGTH, len(features))
 
 
     # TODO More tests, more complicated
