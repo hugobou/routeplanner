@@ -6,6 +6,7 @@ import osmnx as ox
 import mapreader as mr
 import pmparser as pm
 import traffic as tr
+import graphcreator as gc
 
 
 class Test(TestCase):
@@ -28,7 +29,7 @@ class Test(TestCase):
                     s, d, i = ox.distance.nearest_edges(graph, tm.x, tm.y)
                     writer.writerow([tm.id, s, d])
 
-    def test_create_tm_dict(self):
+    def test_read_tm_dict(self):
         filename = 'traffic_measurement_points_test.csv'
 
         tm_dict = tr.read_tm_dict(filename)
@@ -38,3 +39,39 @@ class Test(TestCase):
         self.assertEqual(tm_dict[11], (211, 311))
         self.assertEqual(tm_dict[12], (212, 312))
 
+    def test_reset_traffic_status(self):
+        graph = gc.generate_hardcoded_graph()
+
+        tr.reset_traffic_info(graph)
+
+        for s, d, meta in graph.edges.data():
+            self.assertIn('traffic', meta)
+            self.assertEqual(meta['traffic'], 0)
+
+    def test_update_traffic_status(self):
+        DESC = ""
+        X = "100000"
+        Y = "100000"
+        graph = gc.generate_hardcoded_graph()
+
+        tr.reset_traffic_info(graph)
+
+        tm_dict = {101: (1, 2), 102: (2, 3), 103: (1, 4), 104: (3, 6)}
+        tm_list = [
+            tr.TrafficMeasurement(101, DESC, X, Y, 1),
+            tr.TrafficMeasurement(102, DESC, X, Y, 2),
+            tr.TrafficMeasurement(103, DESC, X, Y, 3),
+            tr.TrafficMeasurement(104, DESC, X, Y, 4),
+        ]
+        tr.update_traffic_info(graph, tm_list, tm_dict)
+
+        self.assertEqual(graph.get_edge_data(1, 2)['traffic'], 1)
+        self.assertEqual(graph.get_edge_data(2, 3)['traffic'], 2)
+        self.assertEqual(graph.get_edge_data(1, 4)['traffic'], 3)
+        self.assertEqual(graph.get_edge_data(3, 6)['traffic'], 4)
+
+        self.assertEqual(graph.get_edge_data(1, 5)['traffic'], 0)
+        self.assertEqual(graph.get_edge_data(5, 1)['traffic'], 0)
+
+        self.assertEqual(graph.get_edge_data(5, 8)['traffic'], 0)
+        self.assertEqual(graph.get_edge_data(8, 5)['traffic'], 0)

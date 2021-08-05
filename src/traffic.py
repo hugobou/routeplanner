@@ -1,3 +1,4 @@
+import networkx as nx
 import osmnx as ox
 import utm
 import csv
@@ -11,7 +12,7 @@ def utm2latlon(x, y):
 
 class TrafficMeasurement:
     def __init__(self, id, description, x, y, serv_level):
-        self.id = id
+        self.id = int(id)
         self.description = description
         self.x = float(x.replace(",", "."))
         self.y = float(y.replace(",", "."))
@@ -37,13 +38,18 @@ def read_tm_dict(filename):
     return tm_dict
 
 
+def reset_traffic_info(graph):
+    nx.set_edge_attributes(graph, SERVICE_DEFAULT, "traffic")
+
+
 def update_traffic_info(graph, tm_list, tm_edge_dict):
+    reset_traffic_info(graph)
     for tm in tm_list:
+        try:
+            edge = tm_edge_dict[tm.id]
+            src = edge[0]
+            dst = edge[1]
+        except KeyError:
+            continue
 
-# TODO https://gis.stackexchange.com/questions/372564/userwarning-when-trying-to-get-centroid-from-a-polygon-geopandas#372568
-        edge = ox.distance.nearest_edges(graph, tm.x, tm.y)
-        print("%s, %s" % (tm, edge))
-
-    # for s, d, meta in graph.edges.data():
-    #     print(meta)
-
+        graph.get_edge_data(src, dst, 0)['traffic'] = tm.serv_level
