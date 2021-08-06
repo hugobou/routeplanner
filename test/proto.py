@@ -12,12 +12,10 @@ app = app.application_creator("../data/madrid.gml",
 origin_point = (-3.6121729, 40.4224813)
 destination_point = (-3.7090030, 40.5538682)
 
-tm_dict = tr.read_tm_dict('../data/traffic_measurement_points.csv')
-
 with open('pm.xml') as xmlfile:
     tm_list = pm.parse_traffic_data(xmlfile.read(), debug=False)
 
-tr.update_traffic_info(app.graph, tm_list, tm_dict)
+app.update_traffic_info(tm_list)
 
 route, valid = app.get_route(origin_point, destination_point)
 

@@ -34,3 +34,6 @@ class Application:
 
     def get_route(self, origin, destination):
         return rp.get_route_gps(self.model, self.graph, origin, destination)
+
+    def update_traffic_info(self, tm_list):
+        tf.update_traffic_info(self.graph, tm_list, self.pm_dict)
