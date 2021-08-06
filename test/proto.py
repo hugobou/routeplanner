@@ -6,6 +6,7 @@ import pmparser as pm
 import traffic as tr
 
 app = app.application_creator("../data/madrid.gml",
+                              "../data/traffic_measurement_points.csv",
                               "../test/model_params")
 
 origin_point = (-3.6121729, 40.4224813)
