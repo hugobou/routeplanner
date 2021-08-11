@@ -3,6 +3,11 @@ import graphcreator as gc
 import routeplanner as rp
 
 
+class FeatureEncoderStub:
+    def encode_features(self, graph, out_edges, node_cur, node_dst):
+        return None
+
+
 class ModelStubAlwaysConstant:
     def __init__(self, constant):
         self._constant = constant
@@ -40,7 +45,9 @@ class RoutePlannerTest(unittest.TestCase):
 
         graph = gc.generate_path(5)
         out_edges = list(graph.out_edges(0))
-        next_node = rp.infer_next_node(model, graph, out_edges, 0, 1)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        next_node = sut.infer_next_node(graph, out_edges, 0, 1)
         self.assertEqual(1, next_node)
 
     def test_infer_node_invalid_prediction_random_choice(self):
@@ -48,7 +55,9 @@ class RoutePlannerTest(unittest.TestCase):
 
         graph = gc.generate_hardcoded_graph()
         out_edges = [(1, 2), (1, 4)]
-        next_node = rp.infer_next_node(model, graph, out_edges, 1, 2)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        next_node = sut.infer_next_node(graph, out_edges, 1, 2)
         self.assertTrue(next_node == 2 or next_node == 4)
 
     def test_infer_node_route_not_possible(self):
@@ -56,13 +65,17 @@ class RoutePlannerTest(unittest.TestCase):
 
         graph = gc.generate_path(5)
         out_edges = []
-        self.assertRaises(RuntimeError, rp.infer_next_node, model, graph, out_edges, 0, 1)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        self.assertRaises(RuntimeError, sut.infer_next_node, graph, out_edges, 0, 1)
 
     def test_only_one_next_dont_call_model(self):
         model = ModelStubAlwaysError()
 
         graph = gc.generate_path(5)
-        route, valid = rp.get_route(model, graph, 0, 4)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        route, valid = sut.get_route(graph, 0, 4)
         self.assertEqual([0, 1, 2, 3, 4], route)
         self.assertTrue(valid)
 
@@ -72,7 +85,9 @@ class RoutePlannerTest(unittest.TestCase):
         # 2nd edge: deterministic
 
         graph = gc.generate_hardcoded_graph()
-        route, valid = rp.get_route(model, graph, 1, 3)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        route, valid = sut.get_route(graph, 1, 3)
         self.assertEqual([1, 2, 3], route)
         self.assertTrue(valid)
 
@@ -80,7 +95,9 @@ class RoutePlannerTest(unittest.TestCase):
         model = ModelStubAlwaysZero()
 
         graph = gc.generate_hardcoded_graph()
-        route, valid = rp.get_route(model, graph, 1, 5)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        route, valid = sut.get_route(graph, 1, 5)
         self.assertEqual([1, 2, 3, 6, 5], route)
         self.assertTrue(valid)
 
@@ -88,7 +105,9 @@ class RoutePlannerTest(unittest.TestCase):
         model = ModelStubPresetList([0, 1, 1])
 
         graph = gc.generate_hardcoded_graph()
-        route, valid = rp.get_route(model, graph, 1, 9)
+
+        sut = rp.RoutePlanner(model, FeatureEncoderStub())
+        route, valid = sut.get_route(graph, 1, 9)
         self.assertEqual([1, 2, 3, 6, 9], route)
         self.assertTrue(valid)
 

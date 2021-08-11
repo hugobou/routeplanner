@@ -5,8 +5,9 @@ import routeplanner as rp
 import traffic as tf
 from trainer import BATCH_SIZE
 from features import FEATURE_LENGTH
+from features import FeaturesEncoder
 
-
+# TODO move to new file
 def application_creator(gml_file_name, pm_dict_file_name, model_params_file_name):
     graph = mr.ReadMap(gml_file_name)
     tm_dict = tf.read_tm_dict(pm_dict_file_name)
@@ -23,17 +24,19 @@ def application_creator(gml_file_name, pm_dict_file_name, model_params_file_name
 
     mx_model.load_params("%s" % model_params_file_name)
 
-    return Application(graph, tm_dict, model)
+    feature_encoder = FeaturesEncoder()
+
+    return Application(graph, tm_dict, model, feature_encoder)
 
 
 class Application:
-    def __init__(self, graph, pm_dict, model):
+    def __init__(self, graph, pm_dict, model, feature_encoder):
         self.graph = graph
         self.pm_dict = pm_dict
-        self.model = model
+        self.route_planner = rp.RoutePlanner(model, feature_encoder)
 
     def get_route(self, origin, destination):
-        return rp.get_route_gps(self.model, self.graph, origin, destination)
+        return self.route_planner.get_route_gps(self.graph, origin, destination)
 
     def update_traffic_info(self, tm_list):
         tf.update_traffic_info(self.graph, tm_list, self.pm_dict)
