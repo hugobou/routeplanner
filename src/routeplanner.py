@@ -25,11 +25,13 @@ class RoutePlanner:
 
         while node_cur != node_dst:
             node_next = self.select_next_node(graph, visited, node_cur, node_dst)
+            # TODO add logging
             if node_next != INVALID_NODE:
                 route.append(node_next)
                 visited.append(node_next)
                 node_cur = node_next
             else:
+                # TODO add logging
                 # Walk back
                 del route[-1]
                 node_cur = route[-1]
@@ -37,7 +39,7 @@ class RoutePlanner:
         return route, True
 
     def select_next_node(self, graph, visited, node_cur, node_dst):
-
+        # TODO add logging
         out_edges = list(filter(lambda edge: edge[1] not in visited, graph.out_edges(node_cur)))
 
         if len(out_edges) == 0:
@@ -54,13 +56,14 @@ class RoutePlanner:
             # TODO define proper exception
             raise RuntimeError("len(out_edges) == 0")
 
-        features_vector = self.feature_encoder.encode_features(graph, out_edges, node_cur, node_dst)
+        features_vector = self.feature_encoder.encode(graph, out_edges, node_cur, node_dst)
         index = self.model.predict(features_vector)
 
         if index < len(out_edges):
             next_node = out_edges[index][1]
         else:
             # TODO return invalid node??
+            # TODO add logging
             next_node = random.choice(out_edges)[1]
 
         return next_node

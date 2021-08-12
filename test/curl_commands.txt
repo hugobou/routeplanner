@@ -1,0 +1,4 @@
+
+curl --header "Content-Type: application/json" --request POST \
+    --data '{"src":{"lon":-3.6121729,"lat":40.4224813},"dst":{"lon":-3.7090030,"lat":40.4538682}}' \
+    http://127.0.0.1:5000/route

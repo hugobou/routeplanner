@@ -10,6 +10,7 @@ from features import FeaturesEncoder
 # TODO move to new file
 def application_creator(gml_file_name, pm_dict_file_name, model_params_file_name):
     graph = mr.ReadMap(gml_file_name)
+    tf.reset_traffic_info(graph)
     tm_dict = tf.read_tm_dict(pm_dict_file_name)
 
     model = mod.Model(mb.build_model())
