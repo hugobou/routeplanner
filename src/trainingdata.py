@@ -17,6 +17,7 @@ def get_label(graph, src, dst):
 def generate_training_set(graph, n_samples):
     features = []
     labels = []
+    feature_encoder = feat.FeaturesEncoder()
 
     while len(labels) <= n_samples:
         src = random_node(graph)
@@ -33,7 +34,7 @@ def generate_training_set(graph, n_samples):
         for (src, dst) in node_pairs:
             if len(graph.out_edges(src)) < 2:
                 continue
-            features.append(feat.encode_features(graph, list(graph.out_edges(src)), src, dst))
+            features.append(feature_encoder.encode(graph, list(graph.out_edges(src)), src, dst))
             labels.append(get_label(graph, src, dst))
             if len(labels) % 100 == 0:
                 print("Generating training data: %d samples generated" % len(labels))
