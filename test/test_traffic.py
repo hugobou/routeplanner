@@ -4,7 +4,7 @@ import csv
 
 import osmnx as ox
 import mapreader as mr
-import pmparser as pm
+import traffic
 import traffic as tr
 import graphcreator as gc
 
@@ -23,7 +23,7 @@ class Test(TestCase):
             writer.writerow(header)
 
             with open('pm.xml') as xmlfile:
-                tmlist = pm.parse_traffic_data(xmlfile.read(), debug=False)
+                tmlist = traffic.parse_traffic_data(xmlfile.read(), debug=False)
                 for tm in tmlist:
                     print(tm)
                     s, d, i = ox.distance.nearest_edges(graph, tm.x, tm.y)
@@ -75,3 +75,8 @@ class Test(TestCase):
 
         self.assertEqual(graph.get_edge_data(5, 8)['traffic'], 0)
         self.assertEqual(graph.get_edge_data(8, 5)['traffic'], 0)
+
+    def test_parse_traffic_data(self):
+        with open('pm.xml') as xmlfile:
+            tmlist = traffic.parse_traffic_data(xmlfile.read(), debug=True)
+            self.assertGreater(len(tmlist), 0)

@@ -6,7 +6,7 @@ import time
 from multiprocessing import Process, Value
 
 import application as ap
-import madrid_traffic_info as mt
+import traffic
 
 TRAFFIC_UPDATE_LOOP_INTERVAL = 600  # 10 minutes
 
@@ -37,7 +37,7 @@ def update_traffic_loop(loop_on):
     # TODO Check why sometimes it doesn't start
     while True:
         if loop_on.value:
-            mt.get_latest_traffic_info(debug=True)
+            traffic.get_latest_traffic_info(debug=True)
             print("downloaded new data")
         time.sleep(TRAFFIC_UPDATE_LOOP_INTERVAL)
 

@@ -2,7 +2,6 @@ import osmnx as ox
 import networkx as nx
 
 import application as app
-import pmparser as pm
 import traffic as tr
 
 app = app.application_creator("../data/madrid.gml",
@@ -13,7 +12,7 @@ origin_point = (-3.6121729, 40.4224813)
 destination_point = (-3.7090030, 40.5538682)
 
 with open('pm.xml') as xmlfile:
-    tm_list = pm.parse_traffic_data(xmlfile.read(), debug=False)
+    tm_list = traffic.parse_traffic_data(xmlfile.read(), debug=False)
 
 app.update_traffic_info(tm_list)
 

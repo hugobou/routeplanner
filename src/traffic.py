@@ -1,5 +1,7 @@
+from xml.etree import ElementTree as ET
+
 import networkx as nx
-import osmnx as ox
+import requests
 import utm
 import csv
 
@@ -9,6 +11,8 @@ SERVICE_DEFAULT = 0
 def utm2latlon(x, y):
     return utm.to_latlon(x, y, 30, 'T')
 
+
+# TODO create object to download and update traffic info with no arguments
 
 class TrafficMeasurement:
     def __init__(self, id, description, x, y, serv_level):
@@ -53,3 +57,41 @@ def update_traffic_info(graph, tm_list, tm_edge_dict):
             continue
 
         graph.get_edge_data(src, dst, 0)['traffic'] = tm.serv_level
+
+
+def get_latest_traffic_info(debug=False):
+    API_URL = 'https://informo.madrid.es/informo/tmadrid/pm.xml'
+    response = requests.get(API_URL)
+
+    if response.status_code == 200:
+        return parse_traffic_data(response.content, debug=debug)
+    else:
+        # TODO proper exception
+        raise RuntimeWarning("something went wrong")
+
+
+def parse_traffic_data(xml_string, debug=False):
+    root_node = ET.ElementTree(ET.fromstring(xml_string)).getroot()
+
+    tmList = []
+    for tag in root_node.findall('pm'):
+        id_elem = tag.find('idelem').text if tag.find('idelem') != None else None
+        tag_desc = tag.find('descripcion').text if tag.find('descripcion') != None else None
+        tag_x = tag.find('st_x').text if tag.find('st_x') != None else None
+        tag_y = tag.find('st_y').text if tag.find('st_y') != None else None
+        tag_serv = tag.find('nivelServicio').text if tag.find('nivelServicio') != None else None
+        tm = TrafficMeasurement(id_elem, tag_desc, tag_x, tag_y, tag_serv)
+        if tm.isvalid():
+            tmList.append(tm)
+            if debug:
+                print(tm)
+    return tmList
+
+
+class TrafficInfo:
+    def __init__(self, filename):
+        self.tm_dict = read_tm_dict(filename)
+
+    def update_latest_traffic(self, graph):
+        tm_list = get_latest_traffic_info()
+        update_traffic_info(graph, tm_list, self.tm_dict)

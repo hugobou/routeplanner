@@ -4,7 +4,7 @@ import routeplanner as rp
 
 
 class FeatureEncoderStub:
-    def encode_features(self, graph, out_edges, node_cur, node_dst):
+    def encode(self, graph, out_edges, node_cur, node_dst):
         return None
 
 

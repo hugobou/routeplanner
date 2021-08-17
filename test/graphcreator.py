@@ -51,6 +51,7 @@ def generate_hardcoded_graph():
     add_bidir_edge(G, 6, 9)
     add_bidir_edge(G, 7, 10)
 
+    add_description_to_nodes(G)
     return G
 
 
@@ -92,3 +93,9 @@ def add_xy_to_nodes(G, x=None, y=None):
     lon_dict = dict(zip(G.nodes(), yy))
     nx.set_node_attributes(G, values=lat_dict, name="y")
     nx.set_node_attributes(G, values=lon_dict, name="x")
+
+
+def add_description_to_nodes(G):
+    names = [str(edge) for edge in G.edges()]
+    names_dict = dict(zip(G.edges(), names))
+    nx.set_edge_attributes(G, values=names_dict, name="name")
