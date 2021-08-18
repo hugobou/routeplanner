@@ -27,7 +27,7 @@ def plan_route():
     print(req_data["dst"])
     origin_point = (req_data["src"]["lon"], req_data["src"]["lat"])
     destination_point = (req_data["dst"]["lon"], req_data["dst"]["lat"])
-    route = route_planner_app.get_route(origin_point, destination_point)
+    route = route_planner_app.get_formatted_route(origin_point, destination_point)
     return json.dumps({'route': route, }), 200, {'ContentType': 'application/json'}
 
 

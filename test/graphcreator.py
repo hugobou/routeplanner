@@ -6,7 +6,7 @@ import traffic as tr
 
 
 def generate_random_graph(num_nodes=20, min_out_degree=2, max_out_degree=4, weight_min=0.0, weight_max=1.0):
-    G = nx.DiGraph()
+    G = nx.MultiDiGraph()
     G.add_nodes_from(range(num_nodes))
 
     for node in G.nodes:
@@ -26,7 +26,7 @@ def generate_random_graph(num_nodes=20, min_out_degree=2, max_out_degree=4, weig
 
 
 def generate_path(num_nodes, x=None, y=None, w=None):
-    G = nx.path_graph(num_nodes, create_using=nx.DiGraph())
+    G = nx.path_graph(num_nodes, create_using=nx.MultiDiGraph())
     add_xy_to_nodes(G, x, y)
 
     add_edge_speed_kph(G, w)
@@ -35,7 +35,7 @@ def generate_path(num_nodes, x=None, y=None, w=None):
     return G
 
 def generate_hardcoded_graph():
-    G = nx.DiGraph()
+    G = nx.MultiDiGraph()
     G.add_nodes_from(range(1, 11))
     add_xy_to_nodes(G)
 
@@ -51,7 +51,7 @@ def generate_hardcoded_graph():
     add_bidir_edge(G, 6, 9)
     add_bidir_edge(G, 7, 10)
 
-    add_description_to_nodes(G)
+    add_description_to_edges(G)
     return G
 
 
@@ -67,8 +67,8 @@ def generate_hardcoded_graph_too_many_connections():
 
 
 def add_bidir_edge(G, n1, n2, w=1):
-    G.add_edge(n1, n2, key=0, speed_kph=w, traffic=0)
-    G.add_edge(n2, n1, key=0, speed_kph=w, traffic=0)
+    G.add_edge(n1, n2, key=0, speed_kph=w, traffic=0, name="(%d, %d)" % (n1, n2))
+    G.add_edge(n2, n1, key=0, speed_kph=w, traffic=0, name="(%d, %d)" % (n2, n1))
 
 
 def add_edge_speed_kph(G, w):
@@ -95,7 +95,5 @@ def add_xy_to_nodes(G, x=None, y=None):
     nx.set_node_attributes(G, values=lon_dict, name="x")
 
 
-def add_description_to_nodes(G):
-    names = [str(edge) for edge in G.edges()]
-    names_dict = dict(zip(G.edges(), names))
-    nx.set_edge_attributes(G, values=names_dict, name="name")
+def add_description_to_edges(G):
+    pass

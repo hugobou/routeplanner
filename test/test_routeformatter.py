@@ -6,7 +6,6 @@ import graphcreator as gc
 
 
 class RouteFormatterTest(unittest.TestCase):
-    # @unittest.skip
     def test_one_name_next(self):
         formatter = rf.RouteFormatter()
 
@@ -14,7 +13,7 @@ class RouteFormatterTest(unittest.TestCase):
 
         result = formatter.format(graph, [1, 2])
         self.assertEqual(1, len(result))
-        self.assertEqual(graph[1][2]["name"], result[0]["name"])
+        self.assertEqual(graph[1][2][0]["name"], result[0]["name"])
         self.assertEqual(2, result[0]["next"])
 
     def test_two_name_next(self):
@@ -25,10 +24,10 @@ class RouteFormatterTest(unittest.TestCase):
         result = formatter.format(graph, [1, 2, 3])
         self.assertEqual(2, len(result))
 
-        self.assertEqual(graph[1][2]["name"], result[0]["name"])
+        self.assertEqual(graph[1][2][0]["name"], result[0]["name"])
         self.assertEqual(2, result[0]["next"])
 
-        self.assertEqual(graph[2][3]["name"], result[1]["name"])
+        self.assertEqual(graph[2][3][0]["name"], result[1]["name"])
         self.assertEqual(3, result[1]["next"])
 
     def test_coordinates(self):

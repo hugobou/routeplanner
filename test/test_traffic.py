@@ -65,16 +65,16 @@ class Test(TestCase):
         ]
         tr.update_traffic_info(graph, tm_list, tm_dict)
 
-        self.assertEqual(graph.get_edge_data(1, 2)['traffic'], 1)
-        self.assertEqual(graph.get_edge_data(2, 3)['traffic'], 2)
-        self.assertEqual(graph.get_edge_data(1, 4)['traffic'], 3)
-        self.assertEqual(graph.get_edge_data(3, 6)['traffic'], 4)
+        self.assertEqual(graph.get_edge_data(1, 2)[0]['traffic'], 1)
+        self.assertEqual(graph.get_edge_data(2, 3)[0]['traffic'], 2)
+        self.assertEqual(graph.get_edge_data(1, 4)[0]['traffic'], 3)
+        self.assertEqual(graph.get_edge_data(3, 6)[0]['traffic'], 4)
 
-        self.assertEqual(graph.get_edge_data(1, 5)['traffic'], 0)
-        self.assertEqual(graph.get_edge_data(5, 1)['traffic'], 0)
+        self.assertEqual(graph.get_edge_data(1, 5)[0]['traffic'], 0)
+        self.assertEqual(graph.get_edge_data(5, 1)[0]['traffic'], 0)
 
-        self.assertEqual(graph.get_edge_data(5, 8)['traffic'], 0)
-        self.assertEqual(graph.get_edge_data(8, 5)['traffic'], 0)
+        self.assertEqual(graph.get_edge_data(5, 8)[0]['traffic'], 0)
+        self.assertEqual(graph.get_edge_data(8, 5)[0]['traffic'], 0)
 
     def test_parse_traffic_data(self):
         with open('pm.xml') as xmlfile:
