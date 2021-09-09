@@ -17,6 +17,7 @@ def get_label(graph, src, dst):
 def generate_training_set(graph, n_samples):
     features = []
     labels = []
+    # TODO pass as argument
     feature_encoder = feat.FeaturesEncoder()
 
     while len(labels) <= n_samples:

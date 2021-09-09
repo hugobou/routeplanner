@@ -22,6 +22,7 @@ app.update_traffic_info(tm_list)
 #print(route)
 #print(valid)
 
+print('get_formatted_route')
 formatted = app.get_formatted_route(origin_point, destination_point)
 print(json.dumps(formatted))
 

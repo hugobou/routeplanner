@@ -37,7 +37,7 @@ def update_traffic_loop(loop_on):
     # TODO Check why sometimes it doesn't start
     while True:
         if loop_on.value:
-            traffic.get_latest_traffic_info(debug=True)
+            traffic.get_latest_traffic_info(debug=False)
             print("downloaded new data")
         time.sleep(TRAFFIC_UPDATE_LOOP_INTERVAL)
 
@@ -52,6 +52,6 @@ if __name__ == '__main__':
     loop_on = Value('b', True)
     p = Process(target=update_traffic_loop, args=(loop_on,))
     p.start()
-    app.run(debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', debug=True, use_reloader=False)
     p.join()
 
