@@ -4,7 +4,7 @@ import trainingdata as td
 import mapreader as mr
 import trainer as tr
 import traffic as tf
-import model as mod
+import load_model as mod
 import features as feat
 
 def add_weights(G):

@@ -1,4 +1,4 @@
-import features as feat
+import logging
 import random
 import osmnx as ox
 
@@ -23,23 +23,22 @@ class RoutePlanner:
         node_cur = node_src
 
         while node_cur != node_dst:
+            logging.debug("get_route: node_cur=%d" % node_cur)
             node_next = self.select_next_node(graph, visited, node_cur, node_dst)
-            # TODO add logging
             if node_next != INVALID_NODE:
                 route.append(node_next)
                 visited.append(node_next)
                 node_cur = node_next
             else:
-                # TODO add logging
-                # Walk back
+                logging.debug("get_route: walk back")
                 del route[-1]
                 node_cur = route[-1]
 
         return route, True
 
     def select_next_node(self, graph, visited, node_cur, node_dst):
-        # TODO add logging
         out_edges = list(filter(lambda edge: edge[1] not in visited, graph.out_edges(node_cur)))
+        logging.debug("select_next_node: out_edges=%s" % out_edges)
 
         if len(out_edges) == 0:
             # TODO test
@@ -60,7 +59,7 @@ class RoutePlanner:
         if index < len(out_edges):
             next_node = out_edges[index][1]
         else:
-            # TODO add logging
             next_node = random.choice(out_edges)[1]
+            logging.debug("infer_next_node: random choice next_node=%d" % next_node)
 
         return next_node

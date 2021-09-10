@@ -4,6 +4,9 @@ import networkx as nx
 import app_create
 import traffic as tr
 import json
+import logging
+
+logging.basicConfig(filename='routeplanner.log', level=logging.DEBUG)
 
 app = app_create.app_create()
 
