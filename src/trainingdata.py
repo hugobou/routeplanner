@@ -43,25 +43,5 @@ def generate_training_set(graph, n_samples):
     return np.array(features), np.array(labels)
 
 
-def generate_training_set_multithread(graph, n_samples):
-    print("enter generate_training_set_multithread")
-    # TODO make this efficient
-    # https://docs.python.org/3/library/concurrent.futures.html
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-        futures = [executor.submit(generate_training_set, graph, n_samples / 4) for i in range(4)]
-        results = [f.result() for f in futures]
-
-        features = results[0][0]
-        labels = results[0][1]
-
-        for result in results[1:]:
-            features = np.concatenate((features, result[0]), axis=0)
-            labels = np.concatenate((labels, result[1]), axis=0)
-
-        return features, labels
-
-
-
-
 def get_node_pairs(path):
     return [(path[i], path[i + 1]) for i in range(len(path) - 1)]
