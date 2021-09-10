@@ -5,6 +5,7 @@ import mapreader as mr
 import trainer as tr
 import traffic as tf
 import model as mod
+import features as feat
 
 def add_weights(G):
     for s, d, meta in G.edges.data():
@@ -23,7 +24,7 @@ print('add_weights')
 add_weights(graph)
 
 print('generate_training_set')
-X, y = td.generate_training_set(graph, n_samples=15000)
+X, y = td.generate_training_set(feat.FeaturesEncoder(), graph, n_samples=15000)
 
 model = mod.Model(mb.build_model())
 

@@ -1,8 +1,6 @@
 import random
 import networkx as nx
 import numpy as np
-import concurrent
-import features as feat
 
 
 def random_node(graph):
@@ -14,11 +12,9 @@ def get_label(graph, src, dst):
     return label
 
 
-def generate_training_set(graph, n_samples):
+def generate_training_set(feature_encoder, graph, n_samples):
     features = []
     labels = []
-    # TODO pass as argument
-    feature_encoder = feat.FeaturesEncoder()
 
     while len(labels) <= n_samples:
         src = random_node(graph)
