@@ -31,5 +31,3 @@ class FeaturesTest(unittest.TestCase):
         features = feat.FeaturesEncoder().encode(graph, out_edges, 1, 10)
         self.assertEqual(FEATURE_LENGTH, len(features))
 
-
-    # TODO More tests, more complicated

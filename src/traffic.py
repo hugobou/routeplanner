@@ -12,8 +12,6 @@ def utm2latlon(x, y):
     return utm.to_latlon(x, y, 30, 'T')
 
 
-# TODO create object to download and update traffic info with no arguments
-
 class TrafficMeasurement:
     def __init__(self, id, description, x, y, serv_level):
         self.id = int(id)
@@ -66,8 +64,7 @@ def get_latest_traffic_info(debug=False):
     if response.status_code == 200:
         return parse_traffic_data(response.content, debug=debug)
     else:
-        # TODO proper exception
-        raise RuntimeWarning("something went wrong")
+        raise RuntimeWarning("something went wrong: response status code not 200 ok")
 
 
 def parse_traffic_data(xml_string, debug=False):

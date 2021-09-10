@@ -19,7 +19,8 @@ def ReadMap(filename):
     remove_edges_without_valid_highway(G)
     simplify_highway(G)
 
-    # TODO review https://geoffboeing.com/2020/06/whats-new-with-osmnx/
+    # Useful info:
+    # https://geoffboeing.com/2020/06/whats-new-with-osmnx/
     # https://geoffboeing.com/2016/11/osmnx-python-street-networks/
     G = ox.add_edge_speeds(G)
     # add_maxspeed(G)
@@ -28,7 +29,7 @@ def ReadMap(filename):
     # G3 = ox.consolidate_intersections(G2, tolerance=10, rebuild_graph=True, dead_ends=True)
 
     # Generate connected components and select the largest:
-    # TODO see https://stackoverflow.com/q/20012579
+    # https://stackoverflow.com/q/20012579
     largest_component = max(nx.weakly_connected_components(G), key=len)
 
     G4 = G.subgraph(largest_component)

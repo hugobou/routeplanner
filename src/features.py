@@ -19,7 +19,6 @@ def dist_cos(x0, y0, x1, y1, x2, y2):
 class FeaturesEncoder:
     def encode(self, graph, out_edges, node_cur, node_dst):
         if len(out_edges) == 0:
-            # TODO define proper exception
             raise RuntimeError("Invalid input (encode_features): len(out_edges) == 0")
 
         longitudes = nx.get_node_attributes(graph, 'x')
@@ -32,12 +31,7 @@ class FeaturesEncoder:
                 break
             out_edge_dst = out_edge[1]
 
-            # TODO: update features with OSM and traffic data
-            # - Length
-            # - Serv level
-            # - Max speed
             try:
-                # TODO update to use speed_kph
                 features_vec[idx * NUM_FEATURES] = graph.get_edge_data(node_cur, out_edge_dst, 0)['speed_kph']
                 features_vec[idx * NUM_FEATURES + 1] = latitudes[out_edge_dst]
                 features_vec[idx * NUM_FEATURES + 2] = longitudes[out_edge_dst]

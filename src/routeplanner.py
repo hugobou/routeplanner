@@ -10,7 +10,6 @@ class RoutePlanner:
         self.model = model
         self.feature_encoder = feature_encoder
 
-    # TODO test
     def get_route_gps(self, graph, origin_point, destination_point):
         node_src = ox.distance.nearest_nodes(graph, origin_point[0], origin_point[1])
         node_dst = ox.distance.nearest_nodes(graph, destination_point[0], destination_point[1])
@@ -53,8 +52,7 @@ class RoutePlanner:
 
     def infer_next_node(self, graph, out_edges, node_cur, node_dst):
         if len(out_edges) == 0:
-            # TODO define proper exception
-            raise RuntimeError("len(out_edges) == 0")
+            raise RuntimeError("error in infer_next_node: len(out_edges) == 0")
 
         features_vector = self.feature_encoder.encode(graph, out_edges, node_cur, node_dst)
         index = self.model.predict(features_vector)
@@ -62,7 +60,6 @@ class RoutePlanner:
         if index < len(out_edges):
             next_node = out_edges[index][1]
         else:
-            # TODO return invalid node??
             # TODO add logging
             next_node = random.choice(out_edges)[1]
 

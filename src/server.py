@@ -34,7 +34,6 @@ def plan_route():
 def update_traffic_loop(loop_on):
     # TODO move to application.py
     # TODO add logging
-    # TODO Check why sometimes it doesn't start
     while True:
         if loop_on.value:
             traffic.get_latest_traffic_info(debug=False)
