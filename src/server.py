@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 import time
 from multiprocessing import Process, Value
 
-import application as ap
+import app_create
 import traffic
 
 TRAFFIC_UPDATE_LOOP_INTERVAL = 600  # 10 minutes
@@ -45,7 +45,7 @@ def update_traffic_loop(loop_on):
 if __name__ == '__main__':
     # TODO add logging
     # See https://stackoverflow.com/a/39337670
-    route_planner_app = ap.application_creator("../data/madrid.gml",
+    route_planner_app = app_create.app_create("../data/madrid.gml",
                                                "../data/traffic_measurement_points.csv",
                                                "../test/model_params")
 

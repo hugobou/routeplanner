@@ -1,11 +1,11 @@
 import osmnx as ox
 import networkx as nx
 
-import application as app
+import app_create
 import traffic as tr
 import json
 
-app = app.application_creator("../data/madrid.gml",
+app = app_create.app_create("../data/madrid.gml",
                               "../data/traffic_measurement_points.csv",
                               "../test/model_params")
 
