@@ -29,4 +29,4 @@ model = mod.Model(mb.build_model())
 
 tr.train(model.get_model(), X, y)
 
-model.get_model().save_params("model_params")
+model.get_model().save_params("../data/model_params")

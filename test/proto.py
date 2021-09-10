@@ -5,22 +5,15 @@ import app_create
 import traffic as tr
 import json
 
-app = app_create.app_create("../data/madrid.gml",
-                              "../data/traffic_measurement_points.csv",
-                              "../test/model_params")
+app = app_create.app_create()
 
-origin_point = (-3.6121729, 40.4224813)
-destination_point = (-3.7090030, 40.5538682)
+origin_point = (-3.6121729, 40.4524813)
+destination_point = (-3.7090030, 40.4538682)
 
 with open('pm.xml') as xmlfile:
     tm_list = tr.parse_traffic_data(xmlfile.read(), debug=False)
 
 app.update_traffic_info(tm_list)
-
-#route, valid = app.get_route(origin_point, destination_point)
-
-#print(route)
-#print(valid)
 
 print('get_formatted_route')
 formatted = app.get_formatted_route(origin_point, destination_point)

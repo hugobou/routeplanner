@@ -45,9 +45,7 @@ def update_traffic_loop(loop_on):
 if __name__ == '__main__':
     # TODO add logging
     # See https://stackoverflow.com/a/39337670
-    route_planner_app = app_create.app_create("../data/madrid.gml",
-                                               "../data/traffic_measurement_points.csv",
-                                               "../test/model_params")
+    route_planner_app = app_create.app_create()
 
     loop_on = Value('b', True)
     p = Process(target=update_traffic_loop, args=(loop_on,))
