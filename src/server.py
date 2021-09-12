@@ -42,7 +42,7 @@ def update_traffic_loop(loop_on):
     while True:
         if loop_on.value:
             logging.info("Starting traffic info update")
-            traffic.get_latest_traffic_info(debug=False)
+            route_planner_app.update_traffic_info()
             logging.info("Traffic info update complete")
         time.sleep(TRAFFIC_UPDATE_LOOP_INTERVAL)
 

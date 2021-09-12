@@ -7,6 +7,7 @@ class Application:
     def __init__(self, graph, pm_dict, model, feature_encoder):
         self.graph = graph
         self.pm_dict = pm_dict
+        self.traffic_info = tf.TrafficInfo(pm_dict)
         self.route_planner = rp.RoutePlanner(model, feature_encoder)
 
     def get_route(self, origin, destination):
@@ -16,5 +17,8 @@ class Application:
         route, valid = self.get_route(origin, destination)
         return rf.RouteFormatter().format(self.graph, route)
 
-    def update_traffic_info(self, tm_list):
+    def update_traffic_info(self):
+        self.traffic_info.update_latest_traffic(self.graph)
+
+    def update_traffic_info_offline(self, tm_list):
         tf.update_traffic_info(self.graph, tm_list, self.pm_dict)

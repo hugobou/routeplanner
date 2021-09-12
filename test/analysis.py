@@ -17,7 +17,7 @@ graph = app.graph
 
 with open('pm.xml') as xmlfile:
     tm_list = tr.parse_traffic_data(xmlfile.read(), debug=False)
-app.update_traffic_info(tm_list)
+app.update_traffic_info_offline(tm_list)
 add_weights(graph)
 
 nodes = list(graph.nodes())

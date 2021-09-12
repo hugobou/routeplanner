@@ -86,8 +86,8 @@ def parse_traffic_data(xml_string, debug=False):
 
 
 class TrafficInfo:
-    def __init__(self, filename):
-        self.tm_dict = read_tm_dict(filename)
+    def __init__(self, tm_dict):
+        self.tm_dict = tm_dict
 
     def update_latest_traffic(self, graph):
         tm_list = get_latest_traffic_info()

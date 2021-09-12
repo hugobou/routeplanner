@@ -16,7 +16,7 @@ destination_point = (-3.7090030, 40.4538682)
 with open('pm.xml') as xmlfile:
     tm_list = tr.parse_traffic_data(xmlfile.read(), debug=False)
 
-app.update_traffic_info(tm_list)
+app.update_traffic_info_offline(tm_list)
 
 print('get_formatted_route')
 formatted = app.get_formatted_route(origin_point, destination_point)
