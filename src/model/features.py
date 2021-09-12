@@ -45,7 +45,7 @@ class FeaturesEncoder:
             except:
                 print("(encode_features) Error with edge: (%d, %d), " % (node_cur, out_edge_dst),
                       graph.get_edge_data(node_cur, out_edge_dst))
-                raise  # RuntimeError("(encode_features) Error with edge: (%d, %d)" % (node_cur, out_edge_dst))
+                raise RuntimeError("(encode_features) Error with edge: (%d, %d)" % (node_cur, out_edge_dst))
 
         return features_vec
 

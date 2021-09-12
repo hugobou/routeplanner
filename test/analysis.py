@@ -37,7 +37,10 @@ with open('analysis.csv', 'w', buffering=1) as f:
 
             route_predicted, valid = app.get_route(origin_point, destination_point)
 
-            distance_predicted = nx.classes.function.path_weight(graph, route_predicted, weight='weight')
+            if valid:
+                distance_predicted = nx.classes.function.path_weight(graph, route_predicted, weight='weight')
+            else:
+                distance_predicted = -1
 
             print("%d, %f, %f, %d, %f, %f,  %f, %f\n" % (node_src, origin_point[0], origin_point[1],
                                                          node_dst, destination_point[0], destination_point[1],

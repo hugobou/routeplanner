@@ -1,7 +1,8 @@
 import logging
 import random
 import osmnx as ox
-import networkx as nx
+
+MAX_ITERATIONS = 500
 INVALID_NODE = -1
 
 
@@ -23,10 +24,9 @@ class RoutePlanner:
         node_cur = node_src
 
         while node_cur != node_dst:
-            # FIXME
-            if len(visited) > 1000:
-                logging.error("get_route reached iter limit: node_src=%d, node_sdst=%d" % (node_src, node_dst))
-                raise nx.exception.NetworkXNoPath
+            if len(visited) > MAX_ITERATIONS:
+                logging.error("get_route reached iter limit: node_src=%d, node_dst=%d" % (node_src, node_dst))
+                return route, False
 
             logging.debug("get_route: node_cur=%d" % node_cur)
             node_next = self.select_next_node(graph, visited, node_cur, node_dst)
