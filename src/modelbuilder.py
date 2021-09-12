@@ -1,6 +1,8 @@
 import mxnet as mx
 
 import features as ft
+from features import FEATURE_LENGTH
+from trainer import BATCH_SIZE
 
 
 def build_model(context=mx.cpu()):
@@ -16,3 +18,12 @@ def build_model(context=mx.cpu()):
 
     return mx.mod.Module(symbol=mlp, context=context)
 
+
+def load_model(model_params_file_name):
+    # https://mxnet.apache.org/versions/1.7.0/api/python/docs/api/module/index.html
+    # https://mxnet-tqchen.readthedocs.io/en/latest/packages/python/module.html
+    mx_model = build_model()
+    mx_model.bind(data_shapes=[('data', (BATCH_SIZE, FEATURE_LENGTH))],
+                  label_shapes=[('softmax_label', (BATCH_SIZE,))])
+    mx_model.load_params("%s" % model_params_file_name)
+    return mx_model
