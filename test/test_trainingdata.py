@@ -3,10 +3,10 @@ import unittest
 import osmnx as ox
 
 import graphcreator as gc
-import trainingdata as td
+from model import trainingdata as td
 import mapreader as mr
 import traffic as tf
-from features import FEATURE_LENGTH, FeaturesEncoder
+from model.features import FEATURE_LENGTH, FeaturesEncoder
 
 
 class TrainingDataCase(unittest.TestCase):

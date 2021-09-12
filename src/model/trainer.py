@@ -2,7 +2,7 @@ import logging
 import mxnet as mx
 from sklearn.model_selection import train_test_split
 
-BATCH_SIZE = 20
+from model.modelbuilder import BATCH_SIZE
 
 
 def train(model, X, y):

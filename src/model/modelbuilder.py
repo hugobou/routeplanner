@@ -1,8 +1,8 @@
 import mxnet as mx
 
-import features as ft
-from features import FEATURE_LENGTH
-from trainer import BATCH_SIZE
+from model.features import FEATURE_LENGTH, MAX_OUT_DEGREE
+
+BATCH_SIZE = 20
 
 
 def build_model(context=mx.cpu()):
@@ -13,7 +13,7 @@ def build_model(context=mx.cpu()):
     fc2 = mx.sym.FullyConnected(data=data, num_hidden=32)
     fc2 = mx.sym.Activation(data=fc2, act_type="relu")
 
-    fc3 = mx.sym.FullyConnected(data=fc2, num_hidden=ft.MAX_OUT_DEGREE)
+    fc3 = mx.sym.FullyConnected(data=fc2, num_hidden=MAX_OUT_DEGREE)
     mlp = mx.sym.SoftmaxOutput(data=fc3, label=label)
 
     return mx.mod.Module(symbol=mlp, context=context)

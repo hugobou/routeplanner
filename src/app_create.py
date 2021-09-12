@@ -1,11 +1,11 @@
 from configparser import ConfigParser
 import logging
 import mapreader as mr
-import model as mod
 import traffic as tf
 from application import Application
-from features import FeaturesEncoder
-from modelbuilder import load_model
+from model.features import FeaturesEncoder
+from model.model import Model
+from model.modelbuilder import load_model
 
 
 def app_create(config_file_name = '../config/routeplanner.cfg'):
@@ -19,7 +19,7 @@ def app_create(config_file_name = '../config/routeplanner.cfg'):
     tm_dict = tf.read_tm_dict(pm_dict_file_name)
 
     logging.info("Loading model")
-    model = mod.Model(load_model(model_params_file_name))
+    model = Model(load_model(model_params_file_name))
 
     feature_encoder = FeaturesEncoder()
 

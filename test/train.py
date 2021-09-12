@@ -1,11 +1,12 @@
-import modelbuilder as mb
 import traffic
-import trainingdata as td
 import mapreader as mr
-import trainer as tr
+from model.trainer import train
+from model.model import Model
+from model.modelbuilder import build_model
+from model.trainingdata import generate_training_set
+from model.features import FeaturesEncoder
 import traffic as tf
-import model as mod
-import features as feat
+
 
 # Weights only used for offline analysis so not added in graph reading
 def add_weights(G):
@@ -27,10 +28,10 @@ if __name__ == "__main__":
     add_weights(graph)
 
     print('generate_training_set')
-    X, y = td.generate_training_set(feat.FeaturesEncoder(), graph, n_samples=15000)
+    X, y = generate_training_set(FeaturesEncoder(), graph, n_samples=15000)
 
-    model = mod.Model(mb.build_model())
+    model = Model(build_model())
 
-    tr.train(model.get_model(), X, y)
+    train(model.get_model(), X, y)
 
     model.get_model().save_params("../data/model_params")

@@ -5,9 +5,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 import unittest
 import numpy as np
 import graphcreator as gc
-import features as feat
+from model import features as feat
 
-from features import NUM_FEATURES, FEATURE_LENGTH
+from model.features import NUM_FEATURES, FEATURE_LENGTH
 
 
 class FeaturesTest(unittest.TestCase):
