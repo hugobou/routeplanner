@@ -23,7 +23,7 @@ def generate_training_set(feature_encoder, graph, n_samples):
             continue
 
         try:
-            path = nx.astar_path(graph, src, dst)
+            path = nx.shortest_path(graph, src, dst, weight='weight')
         except nx.exception.NetworkXNoPath:
             continue
 

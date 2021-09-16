@@ -2,7 +2,7 @@ import logging
 import random
 import osmnx as ox
 
-MAX_ITERATIONS = 500
+MAX_ITERATIONS = 1000
 INVALID_NODE = -1
 
 
