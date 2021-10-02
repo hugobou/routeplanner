@@ -40,11 +40,11 @@ class RouteFormatterTest(unittest.TestCase):
         x = nx.get_node_attributes(graph, 'x')
         y = nx.get_node_attributes(graph, 'y')
 
-        self.assertEqual(x[2], result[0]["x"])
-        self.assertEqual(x[3], result[1]["x"])
+        self.assertEqual(x[2], result[0]["lon"])
+        self.assertEqual(x[3], result[1]["lon"])
 
-        self.assertEqual(y[2], result[0]["y"])
-        self.assertEqual(y[3], result[1]["y"])
+        self.assertEqual(y[2], result[0]["lat"])
+        self.assertEqual(y[3], result[1]["lat"])
 
 if __name__ == '__main__':
     unittest.main()

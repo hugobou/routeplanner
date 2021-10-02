@@ -9,7 +9,7 @@ class RouteFormatter:
             elem = {}
             elem['next'] = pair[1]
             elem['name'] = "" if "name" not in graph[pair[0]][pair[1]][0] else graph[pair[0]][pair[1]][0]["name"]
-            elem['x'] = x[pair[1]]
-            elem['y'] = y[pair[1]]
+            elem['lon'] = x[pair[1]]
+            elem['lat'] = y[pair[1]]
             formatted.append(elem)
         return formatted
