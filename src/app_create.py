@@ -8,7 +8,7 @@ from model.model import Model
 from model.modelbuilder import load_model
 
 
-def app_create(config_file_name = '../config/routeplanner.cfg'):
+def app_create(config_file_name = '/routeplanner/config/routeplanner.cfg'):
     (gml_file_name, pm_dict_file_name, model_params_file_name) = read_config(config_file_name)
 
     logging.info("Reading map")
